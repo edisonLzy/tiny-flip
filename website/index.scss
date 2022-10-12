@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@mixin box($width, $height,$bg,$br: 4px) {
+  width: $width;
+  height: $height;
+  background-color: $bg;
+  border: 1px solid #ddd;
+  border-radius: $br;
+
+}
+
+.big {
+    @include box(200px, 200px, blue);
+}
+
+.small {
+    @include box(100px, 50px, yellow);
+}

@@ -1,1 +1,1 @@
-export { FlipList } from './core'
+export { FlipList, Flip } from './core'

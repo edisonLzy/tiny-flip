@@ -70,6 +70,50 @@ export class FlipList<T extends FlipItem> {
     }
 }
 
+
+interface FlipOptions {
+    target: HTMLElement
+}
 export class Flip {
+
+    private currentRect: DOMRect | null = null;
     
+    private target: HTMLElement;
+    constructor({ target }:FlipOptions){
+        this.target = target;
+        this.target.style['width'] = 'fit-content';
+        this.target.style['transformOrigin'] = '0 0';
+        this.target.dataset['flip'] = 'init';
+        const ob = new MutationObserver(this.processUpdate)
+        ob.observe(target,{
+            attributes: true,
+            attributeFilter: ['data-flip'],
+            attributeOldValue: true
+        })
+    }
+    update(val: string){
+        this.target.dataset['flip'] = val;
+    }
+    private processUpdate = ()=>{
+       const rect =  this.target.getBoundingClientRect()
+       if(this.currentRect){
+            const scaleX= this.currentRect.width /rect.width;
+            const scaleY= this.currentRect.height / rect.height;
+            const animation = this.target.animate([
+                {
+                    // Invert
+                    transform: `scale(${scaleX},${scaleY})`,
+                },
+                {
+                    transform: ``,
+                }
+            ],{
+                duration: 300,
+                easing: "cubic-bezier(0,0,0.32,1)",
+            })
+            // Play
+            animation.play()
+       }
+       this.currentRect = rect;
+    }
 }
