@@ -91,9 +91,11 @@ export class Flip {
             attributeOldValue: true
         })
     }
+    
     update(val: string){
         this.target.dataset['flip'] = val;
     }
+
     private processUpdate = ()=>{
        const rect =  this.target.getBoundingClientRect()
        if(this.currentRect){
